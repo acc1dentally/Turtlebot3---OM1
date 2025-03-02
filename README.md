@@ -39,6 +39,8 @@ Current limitation: Insufficient knowledge of the Unitree SDK to convert its pre
 
 ### Current Progress
 
+![turtlebot3](https://github.com/user-attachments/assets/6f49f6cc-8cc2-48e9-af41-fb0c66799bc4)
+
 - Created configuration for a Turtlebot3 agent: `turtle.json`, including:
   - System prompt base
   - System governance
@@ -55,7 +57,7 @@ High priority integration components:
 - Battery/system monitoring
 - LIDAR integration
 
-### Technical Challenges
+### Challenges
 
 - Interfacing new sensor `.xacros` with OpenMind architecture
 - Turtlebot3 simulation demonstration requirements:
@@ -74,14 +76,14 @@ High priority integration components:
 
 ## Questions & Observations
 
-### Strengths
+
+![Screenshot 2025-02-28 155551](https://github.com/user-attachments/assets/b3c1d26e-ea71-4bc5-8145-15ea9cf71107)
+
 
 - Thorough and comprehensive documentation for robotics and getting started sections
 - Well-described and commented code snippets that are easy to parse
 - Comprehensive system logging in action files
 - Architecture diagram clearly illustrates each layer and LLM connections
-
-### Technical Questions
 
 | Area | Questions |
 |------|-----------|
