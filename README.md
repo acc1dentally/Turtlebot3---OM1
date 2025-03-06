@@ -4,98 +4,114 @@
 [![Gazebo](https://img.shields.io/badge/Gazebo-Simulation-orange)](https://gazebosim.org/)
 [![Turtlebot3](https://img.shields.io/badge/Turtlebot3-Robot-green)](https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/)
 
-## Overview
 
-This document explores the [OpenMind OM1 repository](https://github.com/OpenmindAGI/OM1) from a hardware integration and productization perspective. The analysis primarily used:
+# Overview
 
-- ROS2 Humble
-- Gazebo simulation environment
-- Turtlebot3 with camera integration
+The scope of this document is to look at the openmind OM1 repo  ([Openmind OM1](https://github.com/OpenmindAGI/OM1)) from a hardware integration and productization perspective. 
+I have also attempted to implement the OM1 framework onto a simulated turtlebot3.
 
-## Deployment Report
+Please refer to this GitHub repo for all the code related to this: 
+[My Turtlebot3 OM1 Repo](https://github.com/acc1dentally/Turtlebot3---OM1.git)
 
-### Environment Setup
+---
 
-The OM1 repository was deployed without issues. No Unitree Spot hardware was available for physical testing.
+## Turtlebot3
 
-Instead, a Turtlebot3 simulation was staged with the following configuration:
-- Mounted Intel RealSense camera
-- Connected via ethernet
-- No additional OM1 framework developed
+### 1) Simulate Turtlebot3 with Navigation in ROS2
 
-### Integration Attempts
+![preview](https://github.com/user-attachments/assets/5e76b2ee-bb8d-4fff-9374-8e2a54b96083)
 
-The following approaches were attempted:
-- Examined existing configuration and source code for the Unitree Spot
-- Attempted to reproduce basic framework for Turtlebot3 (unsuccessful)
-- Created custom configurations and copied base classes for:
-  - Input handlers
-  - Data fuser
-  - Other core components
 
-Current limitation: Insufficient knowledge of the Unitree SDK to convert its prebuilt plugins for Turtlebot3.
+#### Simulating Turtlebot3 in ROS2
+I started by setting up a basic TurtleBot3 simulation, using the guide from [Turtlebot3 Simulation](https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/).
+I am using **ROS2 Humble** and **Gazebo Harmonic** on an **Ubuntu 22.04** installation.
 
-## Turtlebot3 Implementation
+#### Creating a Custom Ethernet Port for Connection to OM1
+To connect the TurtleBot simulation (and by extension, a physical TurtleBot3), I created an **Ethernet connection** allowing users to subscribe and control TurtleBot3 simulations.
 
-### Current Progress
+---
+
+### 2) Create a Framework of Implementation Similar to Spot in OM1
+
 
 ![turtlebot3](https://github.com/user-attachments/assets/6f49f6cc-8cc2-48e9-af41-fb0c66799bc4)
 
-- Created configuration for a Turtlebot3 agent: `turtle.json`, including:
-  - System prompt base
-  - System governance
-  - Agent inputs
-- Developed custom connector with:
-  - Interface implementation
-  - `ros2.py` with simple move and rotate actions
+#### Understanding the Project Implementation for Spot
+To correctly implement the OM1 structure for TurtleBot, I examined various folders in the OM1 repo, including:
+- `actions`
+- `fuser`
+- `inputs`
+- `plugins`
+- `_init.py` files
 
-### Framework Design Priorities
+Additionally, I reviewed Unitree’s documentation:
+- [Unitree SDK2 Python](https://github.com/unitreerobotics/unitree_sdk2_python)
+- [Unitree Legged SDK](https://github.com/unitreerobotics/unitree_legged_sdk)
+- [Cyclone DDS](https://github.com/eclipse-cyclonedds/cyclonedds)
 
-High priority integration components:
-- Vision systems
-- Sound input/output
-- Battery/system monitoring
-- LIDAR integration
+I also examined examples like `conversation`, `cubly`, and `iris` in the OM1 repo.
 
-### Challenges
+#### Creating a `config.json`
+I developed a simple `config.json` file for the TurtleBot to define:
+- Base prompts
+- Governance laws
+- Simple actions for TurtleBot
 
-- Interfacing new sensor `.xacros` with OpenMind architecture
-- Turtlebot3 simulation demonstration requirements:
-  - LLM deployment for simulated environment
-  - RViz vision stream integration with Gazebo environment
+#### Creating Custom Actions for TurtleBot3
+Implemented basic move and rotate actions:
+- **Move forward** based on input
+- **Rotate on its axis**
 
-## Actionable Items
+#### Modulating `fuser`, `input`, and `plugins` for TurtleBot3 Implementation
+Updated the `fuser`, `input`, and `plugins` code in OM1 to align with the custom `config.json` for TurtleBot3.
 
-1. **Documentation & Demonstration**
-   - Add demonstration videos/GIFs to showcase capabilities of the Spot agent
-   - Fix broken/missing documentation links (e.g., `/development/actions.mdx`, `env.mdx`)
+---
 
-2. **Hardware Support**
-   - Implement support for ubiquitous, easily available robot hardware (e.g., Turtlebot)
-   - Improve documentation for hardware integration
+### 3) Connect TurtleBot3 to OM1 Layer
 
-## Questions & Observations
+#### Challenges
+**Deploying Spot HelloWorld**
 
+![Screenshot 2025-03-06 070355](https://github.com/user-attachments/assets/7a3da762-98d6-4ef5-93ca-03f884667b22)
+
+- **Troubleshooting:**
+![VirtualBox_ameya-ros-ubuntu_06_03_2025_07_11_38](https://github.com/user-attachments/assets/46fd02c8-8829-44d6-9b2c-27a03a6526e7)
+
+  - Set environment variable `ENV` to `SIM`
+  - Verified correct installation of Unitree SDK and CycloneDDS with updated paths
+
+#### Action Plan
+- Test on **dual boot** to verify hardware connections
+
+---
+
+## OM1 Notes
 
 ![Screenshot 2025-02-28 155551](https://github.com/user-attachments/assets/b3c1d26e-ea71-4bc5-8145-15ea9cf71107)
 
+- **Demonstration videos/gifs** included in the repo showcasing Spot agent capabilities.
+- **Implementation for common robot hardware** (e.g., TurtleBot) to increase accessibility.
+- **Documentation issues:** Several linked tutorials in the repo are missing or broken.
+  - Example: `/development/actions.mdx`, `env.mdx` lack content.
 
-- Thorough and comprehensive documentation for robotics and getting started sections
-- Well-described and commented code snippets that are easy to parse
-- Comprehensive system logging in action files
-- Architecture diagram clearly illustrates each layer and LLM connections
+---
 
-| Area | Questions |
-|------|-----------|
-| **Hardware Abstraction** | How are prompts translated into motion control commands for robots using proprietary SDKs? |
-| **Sensor Integration** | How does sensor URDF structure slot into the AI and World Captioning Layer? |
-| **Performance** | Is the video stream responsive enough for LLM API calls via the architecture? |
-| **Error Handling** | How does the system handle external environment errors during prompt execution? (e.g., obstacles appearing after movement command) Is `loop.py` robust enough for on-the-fly error handling? |
-| **Prompt Engineering** | Is LLM prompt compression being used for more efficient user direction? Does prompt size affect performance? |
-| **Diagnostics** | Will the LLM be connected to robot logging message streams? |
-| **Motion Control** | How are proprietary robot motion control solutions connected through ROS/CycloneDDS to the architecture? |
-| **SLAM Integration** | Is a custom SLAM module essential for vision-based motion systems? Is it leveraged from robot proprietary codebase? |
-| **Vision Processing** | How is the vision module stream connected to the navigation SLAM module input? Are they discrete streams or is SLAM built on top of the vision module? |
-| **Hardware Requirements** | Does robotic hardware support additional OM1 computation or are extra chipsets required? |
-| **URDF Development** | Do custom URDFs require ground-up rebuild and CAD implementation? |
-| **Product Strategy** | Is the system designed for plug-and-play modularity or bespoke rebuilds for each client product? |
+## Questions and Observations
+
+| Area | Questions and Observations |
+|------|----------------------------|
+| **Hardware Abstraction Layer** | How are prompts translated into motion control commands for robots using proprietary SDKs? |
+| **Sensor URDF Structure** | How does the sensor URDF structure integrate with the AI and World Captioning Layer? |
+| **Video Stream & LLM API Calls** | Is the video stream responsive enough for LLM API calls? |
+| **External Environment Error Handling** | What happens if an obstacle appears after a movement prompt? Is `loop.py` robust enough for dynamic error handling? |
+| **LLM Prompt Size & Performance** | Does prompt size affect performance? Can prompts be compressed for efficiency? |
+| **LLM & Robot Logging** | Will the LLM connect to the robot logging stream for diagnostics? |
+| **Motion Control Pipeline & ROS/Cyclonedds** | Does the motion control pipeline rely on proprietary SDKs, or does it integrate with ROS/CycloneDDS? |
+| **Custom SLAM Module** | Is the custom SLAM module from proprietary robot code being utilized? |
+| **Vision Module Stream & Navigation SLAM Input** | Are the Vision module stream and SLAM inputs discrete, or does SLAM build on the Vision module? |
+| **OM1 Computation & New Product Development** | Does robotic hardware support additional OM1 computations for new products, or are extra chipsets required? |
+| **Custom URDFs** | Do custom URDFs require ground-up rebuilding, including CAD implementation? |
+| **Product Scope & Modularity** | Is the product designed for plug-and-play modularity, or does each client require a bespoke rebuild? |
+
+---
+
