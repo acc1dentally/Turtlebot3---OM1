@@ -90,6 +90,12 @@ Updated the `fuser`, `input`, and `plugins` code in OM1 to align with the custom
 
 #### Action Plan
 - Test on **dual boot** to verify hardware connections
+- Verify connection through ethernet to openmind layer.
+- Revert custom urdfs to proprietary turtlebot urdf descriptions for easier testing of OM1 framework. 	
+
+## Key Takeaways
+- Attempting to emulate Gazebo and rviz simulations, especially urdf joint troubleshooting and experimenting, is quite painful on a virtual machine. 
+
 
 ---
 
