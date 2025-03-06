@@ -26,6 +26,14 @@ Please refer to this GitHub repo for all the code related to this:
 I started by setting up a basic TurtleBot3 simulation, using the guide from [Turtlebot3 Simulation](https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/).
 I am using **ROS2 Humble** and **Gazebo Harmonic** on an **Ubuntu 22.04** installation.
 
+#### Create custom urdf for turtlebot3 and mounted camera
+I decided to add in a camera joint to add in vision capability to match functions provided by OM1. I did this by creating a custom urdf to add in an Intel Realsense camera to be attached to the turtlebot3 joint system.
+Code is in the linked github repo, run with ros2 run rqt_image_view rqt_image_view
+
+![Screenshot 2025-03-06 112451](https://github.com/user-attachments/assets/e9be2c01-a111-4d39-abb5-7e64cce28b2d)
+
+
+
 #### Creating a Custom Ethernet Port for Connection to OM1
 To connect the TurtleBot simulation (and by extension, a physical TurtleBot3), I created an **Ethernet connection** allowing users to subscribe and control TurtleBot3 simulations.
 
