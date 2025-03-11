@@ -10,7 +10,7 @@
 The scope of this document is to look at the openmind OM1 repo  ([Openmind OM1](https://github.com/OpenmindAGI/OM1)) from a hardware integration and productization perspective. 
 I have also attempted to implement the OM1 framework onto a simulated turtlebot3.
 
-Please refer to this GitHub repo for all the code related to this: 
+Please refer to this GitHub repo for all the code related to this:   
 [My Turtlebot3 OM1 Repo](https://github.com/acc1dentally/Turtlebot3---OM1.git)
 
 ---
