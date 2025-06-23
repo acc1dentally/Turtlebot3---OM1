@@ -1,4 +1,4 @@
-name: tv
+name: tv_test
 channels:
   - conda-forge
   - defaults
